@@ -18,13 +18,13 @@ public class Main {
 
 
         Concesionaria empresa = new Concesionaria();
-        empresa.listaVehiculos.agregarVehiculo(moto);
-        empresa.listaVehiculos.agregarVehiculo(cami);
-        ArrayList<Vehiculo> catalogo = empresa.listaVehiculos.getCatalogo();
+        empresa.catalogo.agregarVehiculo(moto);
+        empresa.catalogo.agregarVehiculo(cami);
+        ArrayList<Vehiculo> catalogo = empresa.catalogo.getCatalogo();
         catalogo.stream().forEach(vehiculo -> System.out.println(vehiculo.toString()));
 
-        empresa.listaClientes.agregarCliente(eugenio);
-        ArrayList<Cliente> clientes = empresa.listaClientes.getClientes();
+        empresa.clientes.agregarCliente(eugenio);
+        ArrayList<Cliente> clientes = empresa.clientes.getClientes();
         clientes.stream().forEach(cliente -> System.out.println(cliente.toString()));
     }
 }

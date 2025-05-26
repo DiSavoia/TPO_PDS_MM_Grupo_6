@@ -1,6 +1,8 @@
 package perfiles;
 
-public abstract class Usuario {
+import ventas.Observer;
+
+public abstract class Usuario implements Observer {
     protected String nombre;
     protected String correoElectronico;
 
@@ -12,5 +14,10 @@ public abstract class Usuario {
     @Override
     public String toString() {
         return nombre + " " + correoElectronico;
+    }
+
+    @Override
+    public void avisar() {
+        //TODO
     }
 }

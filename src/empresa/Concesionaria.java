@@ -1,12 +1,17 @@
 package empresa;
 
 public class Concesionaria {
-    public Catalogo listaVehiculos;
-    public ListaClientes listaClientes;
+    // FACADE!
+    private String nombre;
+    private String ubicacion;
+    public Catalogo catalogo;
+    public ListaClientes clientes;
+    public ListaVendedores vendedores;
+    public ListaAdministradores administradores;
 
     public Concesionaria() {
-        this.listaVehiculos = new Catalogo();
-        this.listaClientes = new ListaClientes();
+        this.catalogo = new Catalogo();
+        this.clientes = new ListaClientes();
     }
 
 }

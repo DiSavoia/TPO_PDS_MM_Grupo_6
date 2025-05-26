@@ -17,4 +17,6 @@ public class Cliente extends Usuario{
     public String toString() {
         return nombre + " " + apellido + " " + dni + " " + correoElectronico + " " + numeroTelefonico;
     }
+
+
 }

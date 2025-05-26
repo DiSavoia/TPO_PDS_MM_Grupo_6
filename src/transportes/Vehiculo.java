@@ -1,12 +1,16 @@
 package transportes;
 
+import transportes.strategies.Strategy;
+
 public abstract class Vehiculo {
     private String modelo;
     private String color;
-    private int precio;
+    private float precio;
     private int numeroChasis;
     private int numeroMotor;
     private boolean garantia;
+    private String equipamientoAdd;
+    private Strategy estrategia;
 
     public Vehiculo(String modelo, String color, int precio, int numeroChasis, int numeroMotor, boolean garantia) {
         this.modelo = modelo;
@@ -15,6 +19,10 @@ public abstract class Vehiculo {
         this.numeroChasis = numeroChasis;
         this.numeroMotor = numeroMotor;
         this.garantia = garantia;
+    }
+
+    public int calcularImpuesto(){
+        return estrategia.calcularImpuesto();
     }
 
     @Override
