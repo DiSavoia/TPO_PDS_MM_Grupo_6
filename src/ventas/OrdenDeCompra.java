@@ -18,17 +18,29 @@ public class OrdenDeCompra {
     private State estado;
     private Vehiculo vehiculo;
     private ArrayList<Observer> observadores;
+    private static int contadorId = 1;
 
     public OrdenDeCompra(State estado,
                          Date entrega,
                          Cliente comprador,
                          Vendedor vendedor,
                          Vehiculo vehiculoComprado) {
+        this.id = contadorId++;
         this.estado = estado;
         this.fechaDeEntrega = entrega;
+        this.fechaDeCreacion = new Date();
         this.cliente = comprador;
         this.vendedor = vendedor;
         this.vehiculo = vehiculoComprado;
+        this.observadores = new ArrayList<>();
+        
+        // Agregar automaticamente cliente y vendedor como observadores
+        if (comprador != null) {
+            this.observadores.add(comprador);
+        }
+        if (vendedor != null) {
+            this.observadores.add(vendedor);
+        }
     }
 
     public void cambiarEstado(State _estado){
@@ -44,6 +56,50 @@ public class OrdenDeCompra {
     }
 
     public void notificarObservadores(){
-        observadores.forEach(Observer::avisar);
+        if (observadores != null) {
+            observadores.forEach(Observer::avisar);
+        }
+    }
+    
+    // Getters
+    public int getId() {
+        return id;
+    }
+
+    public Date getFechaDeEntrega() {
+        return fechaDeEntrega;
+    }
+
+    public Date getFechaDeCreacion() {
+        return fechaDeCreacion;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public MediosDePago getMedioDePago() {
+        return medioDePago;
+    }
+
+    public State getEstado() {
+        return estado;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public ArrayList<Observer> getObservadores() {
+        return observadores;
+    }
+    
+    // Setters adicionales
+    public void setMedioDePago(MediosDePago medioDePago) {
+        this.medioDePago = medioDePago;
     }
 }

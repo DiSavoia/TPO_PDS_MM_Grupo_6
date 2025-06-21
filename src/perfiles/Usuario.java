@@ -18,6 +18,23 @@ public abstract class Usuario implements Observer {
 
     @Override
     public void avisar() {
-        //TODO
+        // Implementación base de notificación
+        System.out.println("Notificación para " + this.getClass().getSimpleName() + 
+                          " " + nombre + " (" + correoElectronico + ")");
+    }
+    
+    // Metodo especifico que puede ser sobrescrito por las subclases
+    public void avisar(String mensaje) {
+        System.out.println("Notificación para " + this.getClass().getSimpleName() + 
+                          " " + nombre + ": " + mensaje);
+    }
+    
+    // Getters
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
     }
 }

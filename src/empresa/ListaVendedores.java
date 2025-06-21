@@ -12,6 +12,6 @@ public class ListaVendedores {
     }
 
     public void agregarVendedor(Vendedor _vendedor) {this.vendendores.add(_vendedor);}
-    public ArrayList<Vendedor> getVendendores(){return this.vendendores;}
+    public ArrayList<Vendedor> getVendedores(){return this.vendendores;}
     public Vendedor getVendedor(int _index){return this.vendendores.get(_index);}
 }

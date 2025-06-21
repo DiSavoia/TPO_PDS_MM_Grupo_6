@@ -13,9 +13,9 @@ public class VehiculoView {
         System.out.println("Modelo: " + modelo);
         System.out.println("Color: " + color);
         System.out.println("Precio: $" + precio);
-        System.out.println("Número de chasis: " + numeroChasis);
-        System.out.println("Número de motor: " + numeroMotor);
-        System.out.println("Garantía: " + garantia + " meses");
+        System.out.println("Numero de chasis: " + numeroChasis);
+        System.out.println("Numero de motor: " + numeroMotor);
+        System.out.println("Garantia: " + garantia + " meses");
     }
 
 
@@ -37,13 +37,13 @@ public class VehiculoView {
         System.out.print("💲 Precio: ");
         int precio = Integer.parseInt(sc.nextLine());
 
-        System.out.print("🔢 Número de chasis: ");
+        System.out.print("🔢 Numero de chasis: ");
         int numeroChasis = Integer.parseInt(sc.nextLine());
 
-        System.out.print("🔧 Número de motor: ");
+        System.out.print("🔧 Numero de motor: ");
         int numeroMotor = Integer.parseInt(sc.nextLine());
 
-        System.out.print("⏳ Garantía (en meses): ");
+        System.out.print("⏳ Garantia (en meses): ");
         boolean garantia = Boolean.parseBoolean(sc.nextLine());
 
         sc.close();

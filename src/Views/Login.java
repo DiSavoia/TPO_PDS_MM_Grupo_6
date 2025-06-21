@@ -28,8 +28,6 @@ public class Login {
         System.out.print("🔒 Contraseña: ");
         String password = sc.nextLine();
 
-        sc.close();
-
         return new String[]{user, password};
     }
 
@@ -38,7 +36,7 @@ public class Login {
         limpiar.limpia();
         System.out.println(ANSI_GREEN + "╔════════════════════════╗");
         System.out.println("║   LOGIN EXITOSO!       ║");
-        System.out.println("║    ¡Bienvenido!        ║");
+        System.out.println("║     Bienvenido!        ║");
         System.out.println( "║        "+ usuario + "           ║");
         System.out.println("╚════════════════════════╝" + ANSI_RESET);
     }

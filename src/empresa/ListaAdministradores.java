@@ -12,6 +12,6 @@ public class ListaAdministradores {
     }
 
     public void agregarAdministrador(Administrador _administrador) {this.administradores.add(_administrador);}
-    public ArrayList<Administrador> getAdministrador(){return this.administradores;}
+    public ArrayList<Administrador> getAdministradores(){return this.administradores;}
     public Administrador getAdministrador(int _index){return this.administradores.get(_index);}
 }

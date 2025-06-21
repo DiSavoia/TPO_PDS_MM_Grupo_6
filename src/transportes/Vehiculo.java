@@ -22,7 +22,49 @@ public abstract class Vehiculo {
     }
 
     public int calcularImpuesto(){
-        return estrategia.calcularImpuesto();
+        if (estrategia == null) {
+            throw new IllegalStateException("Estrategia no inicializada para el vehiculo");
+        }
+        return estrategia.calcularImpuesto(this);
+    }
+
+    // Setter para estrategia
+    public void setEstrategia(Strategy estrategia) {
+        this.estrategia = estrategia;
+    }
+
+    // Getter para precio (necesario para las estrategias)
+    public float getPrecio() {
+        return precio;
+    }
+
+    // Getters adicionales
+    public String getModelo() {
+        return modelo;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public int getNumeroChasis() {
+        return numeroChasis;
+    }
+
+    public int getNumeroMotor() {
+        return numeroMotor;
+    }
+
+    public boolean isGarantia() {
+        return garantia;
+    }
+
+    public String getEquipamientoAdd() {
+        return equipamientoAdd;
+    }
+
+    public void setEquipamientoAdd(String equipamientoAdd) {
+        this.equipamientoAdd = equipamientoAdd;
     }
 
     @Override

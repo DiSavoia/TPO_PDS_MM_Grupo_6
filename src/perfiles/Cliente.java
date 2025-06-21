@@ -17,6 +17,29 @@ public class Cliente extends Usuario{
     public String toString() {
         return nombre + " " + apellido + " " + dni + " " + correoElectronico + " " + numeroTelefonico;
     }
+    
+    @Override
+    public void avisar() {
+        System.out.println("📧 Estimado/a " + nombre + " " + apellido + 
+                          ", tiene una actualización sobre su orden de compra.");
+    }
+    
+    @Override
+    public void avisar(String mensaje) {
+        System.out.println("📧 Estimado/a " + nombre + " " + apellido + 
+                          ", " + mensaje);
+    }
 
+    // Getters
+    public int getDni() {
+        return dni;
+    }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public int getNumeroTelefonico() {
+        return numeroTelefonico;
+    }
 }

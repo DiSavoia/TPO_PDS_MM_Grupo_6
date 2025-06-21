@@ -29,11 +29,9 @@ public class UsuarioView {
         int dni = Integer.parseInt(scanner.nextLine());
 
 
-        System.out.print(">> Ingrese su Número Telefónico: ");
+        System.out.print(">> Ingrese su Numero de Telefono: ");
         int numeroTelefonico = Integer.parseInt(scanner.nextLine());
         
-        scanner.close();
-
         return  new Cliente (nombre,correoElectronico,dni,apellido,numeroTelefonico);
     }
 
@@ -50,8 +48,6 @@ public class UsuarioView {
 
         System.out.print(">> Ingrese su Correo Electrónico: ");
         String correo = scanner.nextLine();
-
-        scanner.close();
 
         if(n==true){
             return new Vendedor(nombre,correo);
