@@ -31,7 +31,7 @@ public class Facade{
         }
         
         if (scanner != null) {
-            scanner.close();
+            //scanner.close();
         }
     }
     
@@ -57,6 +57,7 @@ public class Facade{
         concesionaria.administradores.agregarAdministrador(
             new Administrador("Admin", "admin@concesionaria.com")
         );
+
     }
     
     private static void crearVehiculosDePrueba() {
@@ -71,10 +72,11 @@ public class Facade{
             factory.crearVehiculo(FactoryManager.TipoVehiculo.CAMION, "Iveco 300 2010", "Blanco", 80000, 1003, 2003, true)
         );
     }
+
     
     private static boolean realizarLogin() {
-        int tipoUsuario = MenuView.mostrarMenuLogin();
-        scanner.nextLine();
+        int tipoUsuario = MenuView.mostrarMenuLogin(scanner);
+
         
         String[] credenciales = Login.login();
         String email = credenciales[0]; // Usuario como email
@@ -112,8 +114,7 @@ public class Facade{
     }
     
     private static boolean procesarMenuCliente() {
-        int opcion = MenuView.mostrarMenuCliente();
-        scanner.nextLine();
+        int opcion = MenuView.mostrarMenuCliente(scanner);
         
         switch (opcion) {
             case 1:
@@ -126,7 +127,7 @@ public class Facade{
                 OrdenView.mostrarOrdenesCliente(concesionaria.ordenes.getOrdenes(), (Cliente) usuarioActual);
                 break;
             case 0:
-                MenuView.mostrarMensaje("Hasta luego! Gracias por usar nuestro sistema.");
+                MenuView.mostrarMensaje("¡Hasta luego! Gracias por usar nuestro sistema.");
                 return false;
             default:
                 MenuView.mostrarError("Opcion invalida");
@@ -135,8 +136,7 @@ public class Facade{
     }
     
     private static boolean procesarMenuVendedor() {
-        int opcion = MenuView.mostrarMenuVendedor();
-        scanner.nextLine();
+        int opcion = MenuView.mostrarMenuVendedor(scanner);
         
         switch (opcion) {
             case 1:
@@ -159,9 +159,8 @@ public class Facade{
     }
     
     private static boolean procesarMenuAdministrador() {
-        int opcion = MenuView.mostrarMenuAdministrador();
-        scanner.nextLine();
-        
+        int opcion = MenuView.mostrarMenuAdministrador(scanner);
+
         switch (opcion) {
             case 1:
                 CatalogoView.mostrarCatalogo(concesionaria.catalogo.getCatalogo());
@@ -217,7 +216,7 @@ public class Facade{
         );
         
         // Seleccionar metodo de pago usando MenuView
-        int medioPago = MenuView.mostrarMenuMediosPago();
+        int medioPago = MenuView.mostrarMenuMediosPago(scanner);
         
         switch (medioPago) {
             case 1:
@@ -253,13 +252,17 @@ public class Facade{
         System.out.println("3. Camión");
         System.out.println("4. Camioneta");
         System.out.print("Opción: ");
-        int tipo = scanner.nextInt();
-        scanner.nextLine();
         
-        // Usar VehiculoView existente
-        Vehiculo nuevoVehiculo = VehiculoView.crearVehiculoConsola(tipo);
-        concesionaria.catalogo.agregarVehiculo(nuevoVehiculo);
-        MenuView.mostrarMensaje("Vehiculo agregado exitosamente al catalogo");
+        try {
+            int tipo = Integer.parseInt(scanner.nextLine().trim());
+            
+            // Usar VehiculoView existente
+            Vehiculo nuevoVehiculo = VehiculoView.crearVehiculoConsola(tipo);
+            concesionaria.catalogo.agregarVehiculo(nuevoVehiculo);
+            MenuView.mostrarMensaje("Vehiculo agregado exitosamente al catalogo");
+        } catch (NumberFormatException e) {
+            MenuView.mostrarError("Opción inválida");
+        }
     }
     
     private static void exportarOrdenes() {
@@ -275,27 +278,31 @@ public class Facade{
         System.out.println("2. Agregar Vendedor");
         System.out.println("3. Agregar Administrador");
         System.out.print("Seleccione opción: ");
-        int opcion = scanner.nextInt();
-        scanner.nextLine();
         
-        switch (opcion) {
-            case 1:
-                Cliente nuevoCliente = UsuarioView.crearCliente();
-                concesionaria.clientes.agregarCliente(nuevoCliente);
-                MenuView.mostrarMensaje("Cliente agregado exitosamente");
-                break;
-            case 2:
-                Vendedor nuevoVendedor = (Vendedor) UsuarioView.crearAdmOVen(true);
-                concesionaria.vendedores.agregarVendedor(nuevoVendedor);
-                MenuView.mostrarMensaje("Vendedor agregado exitosamente");
-                break;
-            case 3:
-                Administrador nuevoAdmin = (Administrador) UsuarioView.crearAdmOVen(false);
-                concesionaria.administradores.agregarAdministrador(nuevoAdmin);
-                MenuView.mostrarMensaje("Administrador agregado exitosamente");
-                break;
-            default:
-                MenuView.mostrarError("Opción invalida");
+        try {
+            int opcion = Integer.parseInt(scanner.nextLine().trim());
+            
+            switch (opcion) {
+                case 1:
+                    Cliente nuevoCliente = UsuarioView.crearCliente();
+                    concesionaria.clientes.agregarCliente(nuevoCliente);
+                    MenuView.mostrarMensaje("Cliente agregado exitosamente");
+                    break;
+                case 2:
+                    Vendedor nuevoVendedor = (Vendedor) UsuarioView.crearAdmOVen(true);
+                    concesionaria.vendedores.agregarVendedor(nuevoVendedor);
+                    MenuView.mostrarMensaje("Vendedor agregado exitosamente");
+                    break;
+                case 3:
+                    Administrador nuevoAdmin = (Administrador) UsuarioView.crearAdmOVen(false);
+                    concesionaria.administradores.agregarAdministrador(nuevoAdmin);
+                    MenuView.mostrarMensaje("Administrador agregado exitosamente");
+                    break;
+                default:
+                    MenuView.mostrarError("Opción invalida");
+            }
+        } catch (NumberFormatException e) {
+            MenuView.mostrarError("Opción inválida");
         }
     }
     

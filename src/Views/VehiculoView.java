@@ -46,8 +46,6 @@ public class VehiculoView {
         System.out.print("⏳ Garantia (en meses): ");
         boolean garantia = Boolean.parseBoolean(sc.nextLine());
 
-        sc.close();
-
         if(n==1) {
         return new Auto(modelo, color, precio, numeroChasis, numeroMotor, garantia);}
         else if (n==2) {

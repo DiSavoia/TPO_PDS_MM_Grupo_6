@@ -9,8 +9,10 @@ public class MenuView {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_CYAN = "\u001B[36m";
-    
-    public static int mostrarMenuLogin() {
+    private static final Scanner scanner = new Scanner(System.in);
+
+
+    public static int mostrarMenuLogin(Scanner scanner) {
         limpiar.limpia();
         System.out.println(ANSI_CYAN + "╔══════════════════════════════════════╗");
         System.out.println("║           TIPO DE USUARIO            ║");
@@ -20,12 +22,16 @@ public class MenuView {
         System.out.println("║  3. ⚙️  Administrador                ║");
         System.out.println("╚══════════════════════════════════════╝" + ANSI_RESET);
         System.out.print("Seleccione tipo de usuario: ");
-        
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
+
     
-    public static int mostrarMenuCliente() {
+    public static int mostrarMenuCliente(Scanner scanner) {
         limpiar.limpia();
         System.out.println(ANSI_GREEN + "╔══════════════════════════════════════╗");
         System.out.println("║            MENU CLIENTE              ║");
@@ -37,11 +43,14 @@ public class MenuView {
         System.out.println("╚══════════════════════════════════════╝" + ANSI_RESET);
         System.out.print("Seleccione una opción: ");
         
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
     
-    public static int mostrarMenuVendedor() {
+    public static int mostrarMenuVendedor(Scanner scanner) {
         limpiar.limpia();
         System.out.println(ANSI_BLUE + "╔══════════════════════════════════════╗");
         System.out.println("║            MENU VENDEDOR             ║");
@@ -53,12 +62,16 @@ public class MenuView {
         System.out.println("╚══════════════════════════════════════╝" + ANSI_RESET);
         System.out.print("Seleccione una opcion: ");
         
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
     
-    public static int mostrarMenuAdministrador() {
+    public static int mostrarMenuAdministrador(Scanner scanner) {
         limpiar.limpia();
+
         System.out.println(ANSI_CYAN + "╔══════════════════════════════════════╗");
         System.out.println("║          MENU ADMINISTRADOR          ║");
         System.out.println("╠══════════════════════════════════════╣");
@@ -71,12 +84,15 @@ public class MenuView {
         System.out.println("║  0. 🚪 Salir                         ║");
         System.out.println("╚══════════════════════════════════════╝" + ANSI_RESET);
         System.out.print("Seleccione una opción: ");
-        
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (Exception e) {
+            return -1; // valor inválido
+        }
     }
     
-    public static int mostrarMenuMediosPago() {
+    public static int mostrarMenuMediosPago(Scanner scanner) {
         System.out.println("\n" + ANSI_GREEN + "╔══════════════════════════════════════╗");
         System.out.println("║           METODO DE PAGO             ║");
         System.out.println("╠══════════════════════════════════════╣");
@@ -86,23 +102,26 @@ public class MenuView {
         System.out.println("╚══════════════════════════════════════╝" + ANSI_RESET);
         System.out.print("Seleccione metodo de pago: ");
         
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
     
     public static void mostrarMensaje(String mensaje) {
         System.out.println("\n" + ANSI_GREEN + "✓ " + mensaje + ANSI_RESET);
-        esperarInput();
+        esperarInput(scanner);
     }
     
     public static void mostrarError(String error) {
         System.out.println("\n" + "\u001B[31m" + "✗ " + error + ANSI_RESET);
-        esperarInput();
+        esperarInput(scanner);
     }
     
-    private static void esperarInput() {
+    private static void esperarInput(Scanner scanner) {
         System.out.print("Presione ENTER para continuar...");
-        Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
     }
+
 } 
