@@ -13,14 +13,14 @@ public class Facade{
     private static Concesionaria concesionaria;
     private static Scanner scanner;
     private static Usuario usuarioActual;
-    
+
     public static void Sistema(){
         inicializar();
         LimpiarView.limpia();
-        
+
         // Mostrar información del sistema
         ReporteView.mostrarInformacionSistema();
-        
+
         // Login usando la View existente
         if (realizarLogin()) {
             Login.mostrarLoginExitoso(usuarioActual.getNombre());
@@ -29,23 +29,23 @@ public class Facade{
             Login.mostrarLoginFallido();
             MenuView.mostrarError("Acceso denegado. Cerrando sistema.");
         }
-        
+
         if (scanner != null) {
             //scanner.close();
         }
     }
-    
+
     private static void inicializar() {
         concesionaria = new Concesionaria();
         scanner = new Scanner(System.in);
-        
+
         // Crear usuarios de ejemplo usando UsuarioView
         crearUsuariosDePrueba();
-        
+
         // Agregar algunos vehiculos al catalogo usando Factory
         crearVehiculosDePrueba();
     }
-    
+
     private static void crearUsuariosDePrueba() {
         // Crear usuarios directamente (simulando que fueron creados con UsuarioView)
         concesionaria.clientes.agregarCliente(
@@ -59,7 +59,7 @@ public class Facade{
         );
 
     }
-    
+
     private static void crearVehiculosDePrueba() {
         FactoryManager factory = FactoryManager.getInstance();
         concesionaria.catalogo.agregarVehiculo(
@@ -73,14 +73,14 @@ public class Facade{
         );
     }
 
-    
+
     private static boolean realizarLogin() {
         int tipoUsuario = MenuView.mostrarMenuLogin(scanner);
 
-        
+
         String[] credenciales = Login.login();
         String email = credenciales[0]; // Usuario como email
-        
+
         switch (tipoUsuario) {
             case 1:
                 usuarioActual = buscarCliente(email);
@@ -95,27 +95,37 @@ public class Facade{
                 MenuView.mostrarError("Tipo de usuario invalido");
                 return false;
         }
-        
+
         return usuarioActual != null;
     }
-    
+
     private static void mostrarMenuPrincipal() {
         boolean continuar = true;
-        
+
         while (continuar) {
-            if (usuarioActual instanceof Cliente) {
-                continuar = procesarMenuCliente();
-            } else if (usuarioActual instanceof Vendedor) {
-                continuar = procesarMenuVendedor();
-            } else if (usuarioActual instanceof Administrador) {
-                continuar = procesarMenuAdministrador();
+            continuar = procesarMenuSegunTipoUsuario();
+
+            if (!continuar) {
+                continuar = procesarReinicioSesion();
             }
         }
     }
-    
+
+
+    private static boolean procesarMenuSegunTipoUsuario() {
+        if (usuarioActual instanceof Cliente) {
+            return procesarMenuCliente();
+        } else if (usuarioActual instanceof Vendedor) {
+            return procesarMenuVendedor();
+        } else if (usuarioActual instanceof Administrador) {
+            return procesarMenuAdministrador();
+        }
+        return false; //default
+    }
+
     private static boolean procesarMenuCliente() {
         int opcion = MenuView.mostrarMenuCliente(scanner);
-        
+
         switch (opcion) {
             case 1:
                 CatalogoView.mostrarCatalogo(concesionaria.catalogo.getCatalogo());
@@ -134,10 +144,10 @@ public class Facade{
         }
         return true;
     }
-    
+
     private static boolean procesarMenuVendedor() {
         int opcion = MenuView.mostrarMenuVendedor(scanner);
-        
+
         switch (opcion) {
             case 1:
                 CatalogoView.mostrarCatalogo(concesionaria.catalogo.getCatalogo());
@@ -157,7 +167,7 @@ public class Facade{
         }
         return true;
     }
-    
+
     private static boolean procesarMenuAdministrador() {
         int opcion = MenuView.mostrarMenuAdministrador(scanner);
 
@@ -189,23 +199,42 @@ public class Facade{
         }
         return true;
     }
-    
+
+    private static boolean procesarReinicioSesion() {
+        int opcion = MenuView.mostrarReinicioIniciarSesion(scanner);
+        //el usuario desea salir del sistema
+        if (opcion != 1) {
+            return false;
+        }
+        //empieza el login de 0
+        usuarioActual = null;
+        if (realizarLogin()) {
+            Login.mostrarLoginExitoso(usuarioActual.getNombre());
+            return true;
+        } else {
+            Login.mostrarLoginFallido();
+            MenuView.mostrarError("Acceso denegado. Cerrando sistema.");
+            return false;
+        }
+
+    }
+
     private static void realizarPedido() {
         int indiceVehiculo = CatalogoView.seleccionarVehiculo(concesionaria.catalogo.getCatalogo());
-        
+
         if (indiceVehiculo == -1) {
             MenuView.mostrarError("No se pudo seleccionar un vehiculo valido");
             return;
         }
-        
+
         Vehiculo vehiculo = concesionaria.catalogo.getCatalogo().get(indiceVehiculo);
-        
+
         // Buscar un vendedor disponible
         Vendedor vendedor = null;
         if (!concesionaria.vendedores.getVendedores().isEmpty()) {
             vendedor = concesionaria.vendedores.getVendedores().get(0);
         }
-        
+
         // Crear orden
         OrdenDeCompra orden = new OrdenDeCompra(
             new VentaState(),
@@ -214,10 +243,10 @@ public class Facade{
             vendedor,
             vehiculo
         );
-        
+
         // Seleccionar metodo de pago usando MenuView
         int medioPago = MenuView.mostrarMenuMediosPago(scanner);
-        
+
         switch (medioPago) {
             case 1:
                 orden.setMedioDePago(MediosDePago.Contado);
@@ -232,17 +261,17 @@ public class Facade{
                 MenuView.mostrarError("Metodo de pago invalido");
                 return;
         }
-        
+
         // Agregar orden al sistema
         concesionaria.ordenes.AgregarOrden(orden);
-        
+
         // Mostrar confirmación usando OrdenView
         OrdenView.mostrarConfirmacionOrden(orden);
-        
+
         // Procesar automaticamente la orden
         orden.getEstado().procesar(orden);
     }
-    
+
     private static void agregarVehiculo() {
         LimpiarView.limpia();
         System.out.println("=== AGREGAR NUEVO VEHiCULO ===");
@@ -252,10 +281,10 @@ public class Facade{
         System.out.println("3. Camión");
         System.out.println("4. Camioneta");
         System.out.print("Opción: ");
-        
+
         try {
             int tipo = Integer.parseInt(scanner.nextLine().trim());
-            
+
             // Usar VehiculoView existente
             Vehiculo nuevoVehiculo = VehiculoView.crearVehiculoConsola(tipo);
             concesionaria.catalogo.agregarVehiculo(nuevoVehiculo);
@@ -264,13 +293,13 @@ public class Facade{
             MenuView.mostrarError("Opción inválida");
         }
     }
-    
+
     private static void exportarOrdenes() {
         concesionaria.ordenes.exportar();
-        ReporteView.mostrarExportacionExitosa("ordenes_export.csv", 
+        ReporteView.mostrarExportacionExitosa("ordenes_export.csv",
                                             concesionaria.ordenes.getOrdenes().size());
     }
-    
+
     private static void gestionarUsuarios() {
         LimpiarView.limpia();
         System.out.println("=== GESTIÓN DE USUARIOS ===");
@@ -278,10 +307,10 @@ public class Facade{
         System.out.println("2. Agregar Vendedor");
         System.out.println("3. Agregar Administrador");
         System.out.print("Seleccione opción: ");
-        
+
         try {
             int opcion = Integer.parseInt(scanner.nextLine().trim());
-            
+
             switch (opcion) {
                 case 1:
                     Cliente nuevoCliente = UsuarioView.crearCliente();
@@ -305,7 +334,7 @@ public class Facade{
             MenuView.mostrarError("Opción inválida");
         }
     }
-    
+
     // Metodos de busqueda de usuarios
     private static Cliente buscarCliente(String email) {
         for (Cliente cliente : concesionaria.clientes.getClientes()) {
@@ -315,7 +344,7 @@ public class Facade{
         }
         return null;
     }
-    
+
     private static Vendedor buscarVendedor(String email) {
         for (Vendedor vendedor : concesionaria.vendedores.getVendedores()) {
             if (vendedor.getCorreoElectronico().equals(email)) {
@@ -324,7 +353,7 @@ public class Facade{
         }
         return null;
     }
-    
+
     private static Administrador buscarAdministrador(String email) {
         for (Administrador admin : concesionaria.administradores.getAdministradores()) {
             if (admin.getCorreoElectronico().equals(email)) {

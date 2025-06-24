@@ -29,7 +29,25 @@ public class MenuView {
             return -1;
         }
     }
+    public static int mostrarReinicioIniciarSesion(Scanner scanner) {
+        LimpiarView.limpia();
+        System.out.println("╔══════════════════════════════════════╗");
+        System.out.println("║           CERRANDO SESIÓN            ║");
+        System.out.println("╠══════════════════════════════════════╣");
+        System.out.println("║ ¿Desea iniciar sesión con otro       ║");
+        System.out.println("║ usuario?                             ║");
+        System.out.println("║                                      ║");
+        System.out.println("║ 1. ✅ Sí, iniciar nueva sesión       ║");
+        System.out.println("║ 2. ❌ No, salir del sistema          ║");
+        System.out.println("╚══════════════════════════════════════╝");
+        System.out.print("Seleccione una opcion: ");
 
+        try {
+            return Integer.parseInt(MenuView.scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
     
     public static int mostrarMenuCliente(Scanner scanner) {
         limpiar.limpia();
