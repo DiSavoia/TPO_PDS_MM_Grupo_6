@@ -71,6 +71,10 @@ public class Facade{
         concesionaria.catalogo.agregarVehiculo(
             factory.crearVehiculo(FactoryManager.TipoVehiculo.CAMION, "Iveco 300 2010", "Blanco", 80000, 1003, 2003, true)
         );
+        concesionaria.catalogo.agregarVehiculo(
+            factory.crearVehiculo(FactoryManager.TipoVehiculo.CAMIONETA, "Toyota Hilux 2022", "Gris", 55000, 2001, 3002, true)
+        );
+
     }
 
 

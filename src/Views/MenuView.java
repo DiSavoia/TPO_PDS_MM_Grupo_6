@@ -19,7 +19,7 @@ public class MenuView {
         System.out.println("╠══════════════════════════════════════╣");
         System.out.println("║  1. 👤 Cliente                       ║");
         System.out.println("║  2. 💼 Vendedor                      ║");
-        System.out.println("║  3. ⚙️  Administrador                ║");
+        System.out.println("║  3. ⚙️  Administrador                 ║");
         System.out.println("╚══════════════════════════════════════╝" + ANSI_RESET);
         System.out.print("Seleccione tipo de usuario: ");
 
